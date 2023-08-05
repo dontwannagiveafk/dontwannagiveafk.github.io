@@ -1,3 +1,4 @@
+http://ryanieeee.cn/2023/08/05/OCR%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/
 http://ryanieeee.cn/2023/08/01/pytorch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/
 http://ryanieeee.cn/categories/index.html
 http://ryanieeee.cn/tags/index.html
@@ -6,4 +7,5 @@ http://ryanieeee.cn/link/index.html
 http://ryanieeee.cn/movies/index.html
 http://ryanieeee.cn/music/index.html
 http://ryanieeee.cn/
+http://ryanieeee.cn/tags/OCR/
 http://ryanieeee.cn/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/
