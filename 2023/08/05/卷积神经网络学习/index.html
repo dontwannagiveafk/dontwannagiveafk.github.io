@@ -1,0 +1,541 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>卷积神经网络学习 | Ryanieeee</title><meta name="author" content="Ryanieeee"><meta name="copyright" content="Ryanieeee"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="有关CNN原理以及衍生模型的学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="卷积神经网络学习">
+<meta property="og:url" content="http://ryanieeee.cn/2023/08/05/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Ryanieeee">
+<meta property="og:description" content="有关CNN原理以及衍生模型的学习">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.ryanieeee.cc/img/p_7.jpg">
+<meta property="article:published_time" content="2023-08-05T07:58:47.415Z">
+<meta property="article:modified_time" content="2023-08-10T11:20:47.741Z">
+<meta property="article:author" content="Ryanieeee">
+<meta property="article:tag" content="CNN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.ryanieeee.cc/img/p_7.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://ryanieeee.cn/2023/08/05/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '卷积神经网络学习',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-08-10 19:20:47'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Ryanieeee" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/comic.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://www.ryanieeee.cc/img/p_7.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Ryanieeee"><span class="site-name">Ryanieeee</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">卷积神经网络学习</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-08-05T07:58:47.415Z" title="发表于 2023-08-05 15:58:47">2023-08-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-08-10T11:20:47.741Z" title="更新于 2023-08-10 19:20:47">2023-08-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>15分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="卷积神经网络学习"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>卷积神经网络学习</h1>
+<h2 id="一-为什么要卷积">一.为什么要卷积</h2>
+<p>也许会问，为啥我们不直接搞一个全连接网络，而是使用卷积操作呢？答案其实很简单：全连接层结构太复杂了，计算量太大了，换而言之就是性价比太低。<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/CNN-learning/1.png" alt="pic-1"><br>
+比如一张1000x1000的图片，假设有1M个隐藏层，如果我们像左侧一样搞一个全连接层的话，就意味着每一个隐藏层的神经元都要和图片的每一个像素点一一对应，也就是说图片的每一个像素点都要挨个过一遍1M个隐藏层，意味着需要有10^12个连接和权值，这样来看不太现实。<br>
+但是假如我们加上卷积操作呢？我认为所谓卷积其实就是一个过滤器，用来提取特征减少计算量的，那么假如我们在全连接层前面加上一个10x10的卷积，那么最后实际上只需要10<em>10</em>1000*1000=10^8个连接，相较于之前已经少了很多。<br>
+那么进一步想，如果我在全连接层前面加上更多的不同的卷积操作，那么实际上传播到全连接层时，我的计算量就少了很多了。</p>
+<table><tr><td bgcolor=Yellow>总结一下：卷积就是一个个过滤器，能过滤出图片的特征，减少计算量。</td></tr></table>
+<h2 id="二-卷积神经网络的结构">二.卷积神经网络的结构</h2>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/CNN-learning/2.PNG" alt="pic-2"><br>
+从图中可以看到，我们实现的功能是一个图片分类功能，输入一张图片，计算机需要识别出属于什么交通工具。可以看到，从第一层到最后一层，图片是越来越“<strong>让人看不懂的</strong>”，这个过程就是提取特征的过程，我们把一个汽车图片，经过多种层的处理，最后提取到适合计算机寻找规律的特征。那么下面，我将说一下一个最基本的CNN网络结构究竟都含有哪些层。</p>
+<h3 id="1-输出层——input">1. 输出层——input</h3>
+<p>虽然上面的图片并没有显示出来输入层，但其实每一个神经网络的最底层都是一个输入层，那么输入层是干啥的呢？输入层主要是对数据进行一些处理，比如标准化/归一化处理等，这样做的好处是规范数据，减少异常值干扰，提高模型的训练速度。</p>
+<h3 id="2-卷积层——conv">2. 卷积层——conv</h3>
+<p>我们使用卷积层来提取局部特征。那局部特征到底是咋样提取出来的呢？假设我们现在有一个这样的3x3卷积核：<br>
+[(1,0,1),<br>
+(0,1,0),<br>
+(1,0,1)]<br>
+我们可以如下图一样进行卷积计算：<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/CNN-learning/3.gif" alt="pic-3"><br>
+显而易见，其实就是两个矩阵作内积。最后输出的矩阵比原来小，这也是我们通过卷积能减少计算量的直观体现。</p>
+<h4 id="权值共享">权值共享</h4>
+<p>在这里我还想介绍一下一个非常重要的机制——权值共享。<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/CNN-learning/4.PNG" alt="pic-4"><br>
+有权值共享机制的卷积运算，我们不难看出，权值共享机制的存在使得输出图像的每一部分都是由同一个卷积核与输入图像运算而得，而如果没有权值共享机制，就会发生以下现象：<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/CNN-learning/5.png" alt="pic-5"><br>
+假设输入图像是192x192，那么有权值共享的卷积核大小只有3<em>3</em>k(k为通道数)，而没有权值共享的卷积核大小为192<em>192</em>k，相较于之前，大了4096倍，由此可以看出，<strong>权值共享机制减少中间参数从而减少了计算量</strong></p>
+<h3 id="3-池化层-下采样-——pool">3. 池化层(下采样)——pool</h3>
+<p>池化层的作用是压缩输入的特征图，一方面简化网络计算复杂度，另一方面进一步提取特征。池化层的两个特点：特征不变性，特征降维<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/CNN-learning/6.png" alt="pic-6"><br>
+上图所示的是最常用的最大池化操作，除此以外还有平均和重叠。池化层还有一个重要的作用就是：<strong>减少过拟合</strong></p>
+<h3 id="4-激活函数（激励层）">4. 激活函数（激励层）</h3>
+<h4 id="1-为啥要用激活函数">1. 为啥要用激活函数</h4>
+<p>提高模型的表达能力，具体一点就是说给模型加上非线性因素，这样模型就可以不仅拟合线性也可以拟合非线性，从而增加了模型的表达能力</p>
+<h4 id="2-常用的激活函数">2. 常用的激活函数</h4>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/CNN-learning/7.png" alt="pic-7"></p>
+<h3 id="5-全连接层——FC">5. 全连接层——FC</h3>
+<p>在整个神经网络中起到“分类器”的作用，如果说卷积层，池化层，激活函数等操作是将原始数据映射到隐层特征空间的话，那么全连接层就是将前面采集到的“分布式特征表示”映射到样本空间。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/CNN-learning/8.png" alt="pic-8">怎么讲呢，其实全连接层就相当于这个蚂蚁大会了。</p>
+<h2 id="三-数据训练">三.数据训练</h2>
+<h3 id="1-前向训练">1.前向训练</h3>
+<p>前向传播就是数据从输入层开始，经过一层一层的处理，最后数据传到输出层的这个过程，最后输出值就是预测值</p>
+<h3 id="2-反向传播">2.反向传播</h3>
+<p>那么既然前向传播输出了预测值，那么我就可以计算出预测值与目标值的误差loss。反向传播就是根据损失函数loss来反方向的计算出每一层的偏导数，从最后一层逐层向前改变每一层的权重，也就是更新参数，其核心就是：<br>
+<strong>损失函数对每一层的每一个参数求偏导的链式求导法则</strong></p>
+<h4 id="2-1计算总误差">2.1计算总误差</h4>
+<p>output：前向传播得到的预测值<br>
+target：样本值<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/CNN-learning/9.png" alt="pic-9"></p>
+<h4 id="2-2隐藏层与输出层之间的权重更新">2.2隐藏层与输出层之间的权重更新</h4>
+<p>以权重w5为例，对参数w5求偏导可以看出w5对整体误差的影响，总误差对w5求偏导如下：<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/CNN-learning/10.png" alt="pic-10"><br>
+分解如下：<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/CNN-learning/11.png" alt="pic-11"><br>
+最后三者相乘，下面就是进行梯度下降更新参数：<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/CNN-learning/12.png" alt="pic-12"><br>
+其中η为学习率（learning rate），其余权重同理.</p>
+<h4 id="2-3输出层与隐藏层之间的权重更新">2.3输出层与隐藏层之间的权重更新</h4>
+<p>以权重w1为例：<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/CNN-learning/13.png" alt="pic-13"><br>
+分解如下:<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/CNN-learning/14.png" alt="pic-14"><br>
+最后三者相乘，梯度下降，更新参数：<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/CNN-learning/15.png" alt="pic-15"></p>
+<h4 id="2-4总结">2.4总结</h4>
+<p>神经网络就是通过不断的前向传播和反向传播不断调整神经网络的权重，最终到达预设的迭代次数或者对样本的学习已经到了比较好的程度后，就停止迭代，那么一个神经网络就训练好了。这就是神经网络的本质：通过计算误差、不断修正权重以拟合输入输出的映射函数曲线。</p>
+<h2 id="四-LetNet-5">四.LetNet-5</h2>
+<h3 id="1-基本结构">1. 基本结构</h3>
+<p>LetNet是历史上第一个真正的卷积神经网络，其网络结构如下：<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/CNN-learning/16.png" alt="pic-16"></p>
+<ul class="lvl-0">
+<li class="lvl-2">
+<p>C1层是卷积层，有6个通道，是由输入图像经过6个5x5的卷积核对输入图像卷积得到。</p>
+</li>
+<li class="lvl-2">
+<p>S1层是一个下采样层（池化层），有6个通道，是由C1层的特征图经过2x2，步长为2的窗口进行平均池化，在利用sigmoid激活函数变换得到。</p>
+</li>
+<li class="lvl-2">
+<p>C3是卷积层，有16个通道，是由16个5x5的卷积核对S2进行卷积得到。</p>
+</li>
+<li class="lvl-2">
+<p>S4是一个下采样层（池化），有16个通道，是由C3层的特征图经过2x2，步长为2的窗口进行平均池化，在利用sigmoid激活函数变换得到。</p>
+</li>
+<li class="lvl-2">
+<p>C5是卷积层包含120个特征图，是由120个5x5的卷积核对S2进行卷积得到。</p>
+</li>
+<li class="lvl-2">
+<p>F6是包含84个神经元的全连接层，采用双曲正切激活函数。</p>
+</li>
+<li class="lvl-2">
+<p>output是输出层有10个神经元<br>
+网络流程如下：<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/CNN-learning/17.png" alt="pic-17"></p>
+</li>
+<li class="lvl-2">
+<p>k_size：代表卷积核的大小</p>
+</li>
+<li class="lvl-2">
+<p>k_num：代表卷积的数量</p>
+</li>
+<li class="lvl-2">
+<p>s：代表步长大小</p>
+</li>
+</ul>
+<h3 id="2-代码实现">2. 代码实现</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line">import torch</span><br><span class="line">import torch.nn as nn</span><br><span class="line">import torch.optim as optim</span><br><span class="line">from torchvision import datasets, transforms</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">device = torch.device(&#x27;cuda&#x27; if torch.cuda.is_available() else &#x27;cpu&#x27;)</span><br><span class="line"># 定义LeNet网络结构</span><br><span class="line">class LeNet(nn.Module):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        super(LeNet, self).__init__()</span><br><span class="line">        self.conv = nn.Sequential(</span><br><span class="line">            nn.Conv2d(1, 6, kernel_size=5,padding=2),</span><br><span class="line">            nn.Sigmoid(),</span><br><span class="line">            nn.AvgPool2d(kernel_size=2, stride=2),</span><br><span class="line">            nn.Conv2d(6, 16, kernel_size=5),</span><br><span class="line">            nn.SIgmoid(),</span><br><span class="line">            nn.AvgPool2d(kernel_size=2, stride=2)</span><br><span class="line">        )</span><br><span class="line">        self.fc = nn.Sequential(</span><br><span class="line">            nn.Flatten(),</span><br><span class="line">            nn.Linear(16 * 4 * 4, 120),</span><br><span class="line">            nn.Sigmoid(),</span><br><span class="line">            nn.Linear(120, 84),</span><br><span class="line">            nn.Sigmoid(),</span><br><span class="line">            nn.Linear(84, 10)</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">    def forward(self, x):</span><br><span class="line">        x = self.conv(x)</span><br><span class="line">        x = x.view(x.size(0), -1)</span><br><span class="line">        x = self.fc(x)</span><br><span class="line">        return x</span><br><span class="line"></span><br><span class="line"># 加载MNIST数据集</span><br><span class="line">train_dataset = datasets.MNIST(root=&#x27;./data&#x27;, train=True, transform=transforms.ToTensor(), download=True)</span><br><span class="line">test_dataset = datasets.MNIST(root=&#x27;./data&#x27;, train=False, transform=transforms.ToTensor())</span><br><span class="line"></span><br><span class="line"># 定义训练和测试的数据加载器</span><br><span class="line">train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=64, shuffle=True)</span><br><span class="line">test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=64, shuffle=False)</span><br><span class="line"></span><br><span class="line"># 创建LeNet模型</span><br><span class="line">net = LeNet().to(device)</span><br><span class="line"></span><br><span class="line"># 定义损失函数和优化器</span><br><span class="line">criterion = nn.CrossEntropyLoss()</span><br><span class="line">optimizer = optim.Adam(net.parameters(), lr=0.001)</span><br><span class="line"></span><br><span class="line"># 将模型设置为训练模式</span><br><span class="line">net.train()</span><br><span class="line"></span><br><span class="line"># 记录训练和测试的准确率和损失</span><br><span class="line">train_acc_history = []</span><br><span class="line">train_loss_history = []</span><br><span class="line">test_acc_history = []</span><br><span class="line">test_loss_history = []</span><br><span class="line"></span><br><span class="line"># 训练模型</span><br><span class="line">num_epochs = 5</span><br><span class="line">for epoch in range(num_epochs):</span><br><span class="line">    train_loss = 0.0</span><br><span class="line">    train_total = 0</span><br><span class="line">    train_correct = 0</span><br><span class="line"></span><br><span class="line">    for i, (images, labels) in enumerate(train_loader):</span><br><span class="line">        optimizer.zero_grad()</span><br><span class="line">        </span><br><span class="line">        outputs = net(images)</span><br><span class="line">        loss = criterion(outputs, labels)</span><br><span class="line">        </span><br><span class="line">        loss.backward()</span><br><span class="line">        optimizer.step()</span><br><span class="line"></span><br><span class="line">        train_loss += loss.item() * images.size(0)</span><br><span class="line">        _, predicted = torch.max(outputs.data, 1)</span><br><span class="line">        train_total += labels.size(0)</span><br><span class="line">        train_correct += (predicted == labels).sum().item()</span><br><span class="line"></span><br><span class="line">    # 计算训练集的准确率和损失</span><br><span class="line">    train_accuracy = train_correct / train_total</span><br><span class="line">    train_loss /= train_total</span><br><span class="line">    </span><br><span class="line">    test_loss = 0.0</span><br><span class="line">    test_total = 0</span><br><span class="line">    test_correct = 0</span><br><span class="line"></span><br><span class="line">    # 在测试集上测试模型的准确率和损失</span><br><span class="line">    with torch.no_grad():</span><br><span class="line">        for images, labels in test_loader:</span><br><span class="line">            outputs = net(images)</span><br><span class="line">            loss = criterion(outputs, labels)</span><br><span class="line">            </span><br><span class="line">            test_loss += loss.item() * images.size(0)</span><br><span class="line">            _, predicted = torch.max(outputs.data, 1)</span><br><span class="line">            test_total += labels.size(0)</span><br><span class="line">            test_correct += (predicted == labels).sum().item()</span><br><span class="line"></span><br><span class="line">    # 计算测试集的准确率和损失</span><br><span class="line">    test_accuracy = test_correct / test_total</span><br><span class="line">    test_loss /= test_total</span><br><span class="line"></span><br><span class="line">    print(&#x27;Epoch [&#123;&#125;/&#123;&#125;], Train Loss: &#123;:.4f&#125;, Train Accuracy: &#123;:.2f&#125;%, Test Loss: &#123;:.4f&#125;, Test Accuracy: &#123;:.2f&#125;%&#x27;</span><br><span class="line">          .format(epoch+1, num_epochs, train_loss, train_accuracy*100, test_loss, test_accuracy*100))</span><br><span class="line">    </span><br><span class="line">    # 保存训练和测试的准确率和损失</span><br><span class="line">    train_acc_history.append(train_accuracy)</span><br><span class="line">    train_loss_history.append(train_loss)</span><br><span class="line">    test_acc_history.append(test_accuracy)</span><br><span class="line">    test_loss_history.append(test_loss)</span><br><span class="line"></span><br><span class="line"># 绘制准确率和损失的曲线图</span><br><span class="line">plt.figure(figsize=(10, 5))</span><br><span class="line">plt.plot(range(num_epochs), train_acc_history, label=&#x27;Train Accuracy&#x27;)</span><br><span class="line">plt.plot(range(num_epochs), test_acc_history, label=&#x27;Test Accuracy&#x27;)</span><br><span class="line">plt.xlabel(&#x27;Epoch&#x27;)</span><br><span class="line">plt.ylabel(&#x27;Accuracy&#x27;)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.title(&#x27;Accuracy Curve&#x27;)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(10, 5))</span><br><span class="line">plt.plot(range(num_epochs), train_loss_history, label=&#x27;Train Loss&#x27;)</span><br><span class="line">plt.plot(range(num_epochs), test_loss_history, label=&#x27;Test Loss&#x27;)</span><br><span class="line">plt.xlabel(&#x27;Epoch&#x27;)</span><br><span class="line">plt.ylabel(&#x27;Loss&#x27;)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.title(&#x27;Loss Curve&#x27;)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="五-AlexNet">五. AlexNet</h2>
+<h3 id="1-相较于LetNet的改进">1.相较于LetNet的改进</h3>
+<p>（1）相较于LetNet要深很多：AlexNet由8层组成：5个卷积层，2个全连接隐藏层，1个全连接输出层。（2）AlexNet使用ReLU作为激活函数而不sigmoid<br>
+（3）使用的池化层是最大池化而不是平均池化（4）提出了丢弃法dropout来减少过拟合</p>
+<h3 id="2-网络结构">2.网络结构</h3>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/CNN-learning/18.png" alt="pic-18"><br>
+原先由于gpu算力不够，需要两块gpu同时处理，但是现在gpu更先进了，所以我们现在只使用一个gpu就ok了改进图如下：<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/CNN-learning/19.png" alt="pic-19"><br>
+值得注意的一点：原图输入224 × 224，实际上进行了随机裁剪，实际大小为227 × 227</p>
+<h4 id="2-1-卷积层C1">2.1 卷积层C1</h4>
+<ul class="lvl-0">
+<li class="lvl-2">
+<p>C1的基本结构为：卷积–&gt;ReLU–&gt;池化</p>
+</li>
+<li class="lvl-2">
+<p>卷积：输入227 × 227 × 3，96个11×11×3的卷积核，padding = 1，步长stride = 4，因此其FeatureMap大小为(227-11+1×2+4)/4 = 55，即55×55×96</p>
+</li>
+<li class="lvl-2">
+<p>激活函数：ReLU</p>
+</li>
+<li class="lvl-2">
+<p>池化：池化核大小3 × 3，不扩充边缘padding = 0，步长stride = 2，因此其FeatureMap输出大小为(55-3+0×2+2)/2=27, 即C1输出为27×27×96（此处未将输出分到两个GPU中，若按照论文将分成两组，每组为27×27×48）</p>
+</li>
+</ul>
+<h4 id="2-2-卷积层C2">2.2 卷积层C2</h4>
+<ul class="lvl-0">
+<li class="lvl-2">
+<p>C2的基本结构为：卷积–&gt;ReLU–&gt;池化</p>
+</li>
+<li class="lvl-2">
+<p>卷积：输入27×27×96，256个5×5×96的卷积核，扩充边缘padding = 2， 步长stride = 1，因此其FeatureMap大小为(27-5+2×2+1)/1 = 27，即27×27×256</p>
+</li>
+<li class="lvl-2">
+<p>激活函数：ReLU</p>
+</li>
+<li class="lvl-2">
+<p>池化：池化核大小3 × 3，不扩充边缘padding = 0，步长stride = 2，因此其FeatureMap输出大小为(27-3+0+2)/2=13, 即C2输出为13×13×256（此处未将输出分到两个GPU中，若按照论文将分成两组，每组为13×13×128）</p>
+</li>
+</ul>
+<h4 id="2-3-卷积层C3">2.3 卷积层C3</h4>
+<ul class="lvl-0">
+<li class="lvl-2">
+<p>C3的基本结构为：卷积–&gt;ReLU。注意一点：此层没有进行MaxPooling操作</p>
+</li>
+<li class="lvl-2">
+<p>卷积：输入13×13×256，384个3×3×256的卷积核， 扩充边缘padding = 1，步长stride = 1，因此其FeatureMap大小为(13-3+1×2+1)/1 = 13，即13×13×384</p>
+</li>
+<li class="lvl-2">
+<p>激活函数：ReLU，即C3输出为13×13×384（此处未将输出分到两个GPU中，若按照论文将分成两组，每组为13×13×192）</p>
+</li>
+</ul>
+<h4 id="2-4-卷积层C4">2.4 卷积层C4</h4>
+<ul class="lvl-0">
+<li class="lvl-2">
+<p>C4的基本结构为：卷积–&gt;ReLU。注意一点：<strong>此层也没有进行MaxPooling操作</strong></p>
+</li>
+<li class="lvl-2">
+<p>卷积：输入13×13×384，384个3×3×384的卷积核， 扩充边缘padding = 1，步长stride = 1，因此其FeatureMap大小为(13-3+1×2+1)/1 = 13，即13×13×384</p>
+</li>
+<li class="lvl-2">
+<p>激活函数：ReLU，即C4输出为13×13×384（此处未将输出分到两个GPU中，若按照论文将分成两组，每组为13×13×192）</p>
+</li>
+</ul>
+<h4 id="2-5-卷积层C5">2.5 卷积层C5</h4>
+<ul class="lvl-0">
+<li class="lvl-2">
+<p>C5的基本结构为：卷积–&gt;ReLU–&gt;池化</p>
+</li>
+<li class="lvl-2">
+<p>卷积：输入13×13×384，256个3×3×384的卷积核，扩充边缘padding = 1，步长stride = 1，因此其FeatureMap大小为(13-3+1×2+1)/1 = 13，即13×13×256</p>
+</li>
+<li class="lvl-2">
+<p>激活函数：ReLU</p>
+</li>
+<li class="lvl-2">
+<p>池化：池化核大小3 × 3， 扩充边缘padding = 0，步长stride = 2，因此其FeatureMap输出大小为(13-3+0×2+2)/2=6, 即C5输出为6×6×256（此处未将输出分到两个GPU中，若按照论文将分成两组，每组为6×6×128）</p>
+</li>
+</ul>
+<h4 id="2-6-全连接层FC6">2.6 全连接层FC6</h4>
+<ul class="lvl-0">
+<li class="lvl-2">
+<p>FC6的基本结构为：全连接–&gt;&gt;ReLU–&gt;Dropout</p>
+</li>
+<li class="lvl-2">
+<p>全连接：此层的全连接实际上是通过卷积进行的，输入6×6×256，4096个6×6×256的卷积核，扩充边缘padding = 0, 步长stride = 1, 因此其FeatureMap大小为(6-6+0×2+1)/1 = 1，即1×1×4096</p>
+</li>
+<li class="lvl-2">
+<p>激活函数：ReLU</p>
+</li>
+<li class="lvl-2">
+<p>Dropout：全连接层中去掉了一些神经节点，达到防止过拟合，FC6输出为1×1×4096</p>
+</li>
+</ul>
+<h4 id="2-7-全连接FC7">2.7 全连接FC7</h4>
+<ul class="lvl-0">
+<li class="lvl-2">
+<p>FC7的基本结构为：全连接–&gt;&gt;ReLU–&gt;Dropout</p>
+</li>
+<li class="lvl-2">
+<p>全连接：此层的全连接，输入1×1×4096</p>
+</li>
+<li class="lvl-2">
+<p>激活函数：ReLU</p>
+</li>
+<li class="lvl-2">
+<p>Dropout：全连接层中去掉了一些神经节点，达到防止过拟合，FC7输出为1×1×4096</p>
+</li>
+</ul>
+<h4 id="2-8-全连接层FC8">2.8 全连接层FC8</h4>
+<ul class="lvl-0">
+<li class="lvl-2">
+<p>FC8的基本结构为：全连接–&gt;&gt;softmax</p>
+</li>
+<li class="lvl-2">
+<p>全连接：此层的全连接，输入1×1×4096;</p>
+</li>
+<li class="lvl-2">
+<p>softmax：softmax为1000，FC8输出为1×1×1000</p>
+</li>
+</ul>
+<h3 id="3-AlexNet的主要贡献">3.AlexNet的主要贡献</h3>
+<h4 id="3-1-ReLU激活函数的引入">3.1 ReLU激活函数的引入</h4>
+<p>采用修正线性单元(ReLU)的深度卷积神经网络训练时间比等价的tanh单元要快几倍。而时间开销是进行模型训练过程中很重要的考量因素之一。同时，ReLU有效防止了过拟合现象的出现。由于ReLU激活函数的高效性与实用性，使得它在深度学习框架中占有重要地位。</p>
+<h4 id="3-2-层叠池化操作">3.2 层叠池化操作</h4>
+<p>以往池化的大小PoolingSize与步长stride一般是相等的，例如：图像大小为256*256，PoolingSize=2×2，stride=2，这样可以使图像或是FeatureMap大小缩小一倍变为128，此时池化过程没有发生层叠。但是AlexNet采用了层叠池化操作，即PoolingSize &gt; stride。这种操作非常像卷积操作，可以使相邻像素间产生信息交互和保留必要的联系。论文中也证明，此操作可以有效防止过拟合的发生。</p>
+<h4 id="3-3-Dropout操作">3.3 Dropout操作</h4>
+<p>Dropout操作会将概率小于0.5的每个隐层神经元的输出设为0，即去掉了一些神经节点，达到防止过拟合。那些“失活的”神经元不再进行前向传播并且不参与反向传播。这个技术减少了复杂的神经元之间的相互影响。在论文中，也验证了此方法的有效性。</p>
+<h4 id="3-4-网络层数的增加">3.4 网络层数的增加</h4>
+<p>与原始的LeNet相比，AlexNet网络结构更深，LeNet为5层，AlexNet为8层。在随后的神经网络发展过程中，AlexNet逐渐让研究人员认识到网络深度对性能的巨大影响。</p>
+<h3 id="4-代码实例">4.代码实例</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">import time</span><br><span class="line">import torch</span><br><span class="line">from torch import nn, optim</span><br><span class="line">import torchvision</span><br><span class="line">device = torch.device(&#x27;cuda&#x27; if torch.cuda.is_available() else &#x27;cpu&#x27;)</span><br><span class="line"></span><br><span class="line">class AlexNet(nn.Module):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        super(AlexNet, self).__init__()</span><br><span class="line">        self.conv = nn.Sequential(</span><br><span class="line">            nn.Conv2d(1, 96, 11, 4，1), # in_channels, out_channels, kernel_size, stride, padding</span><br><span class="line">            nn.ReLU(),</span><br><span class="line">            nn.MaxPool2d(3, 2), # kernel_size, stride</span><br><span class="line">            # 减小卷积窗口，使用填充为2来使得输入与输出的高和宽一致，且增大输出通道数</span><br><span class="line">            nn.Conv2d(96, 256, 5, 1, 2),</span><br><span class="line">            nn.ReLU(),</span><br><span class="line">            nn.MaxPool2d(3, 2),</span><br><span class="line">            # 连续3个卷积层，且使用更小的卷积窗口。除了最后的卷积层外，进一步增大了输出通道数。</span><br><span class="line">            # 前两个卷积层后不使用池化层来减小输入的高和宽</span><br><span class="line">            nn.Conv2d(256, 384, 3, 1, 1),</span><br><span class="line">            nn.ReLU(),</span><br><span class="line">            nn.Conv2d(384, 384, 3, 1, 1),</span><br><span class="line">            nn.ReLU(),</span><br><span class="line">            nn.Conv2d(384, 256, 3, 1, 1),</span><br><span class="line">            nn.ReLU(),</span><br><span class="line">            nn.MaxPool2d(3, 2)</span><br><span class="line">        )</span><br><span class="line">         # 这里全连接层的输出个数比LeNet中的大数倍。使用丢弃层来缓解过拟合</span><br><span class="line">        self.fc = nn.Sequential(</span><br><span class="line">            nn.Linear(256*5*5, 4096),</span><br><span class="line">            nn.ReLU(),</span><br><span class="line">            nn.Dropout(0.5),</span><br><span class="line">            nn.Linear(4096, 4096),</span><br><span class="line">            nn.ReLU(),</span><br><span class="line">            nn.Dropout(0.5),</span><br><span class="line">            # 输出层。由于这里使用Fashion-MNIST，所以用类别数为10，而非论文中的1000</span><br><span class="line">            nn.Linear(4096, 10),</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">    def forward(self, img):</span><br><span class="line">        feature = self.conv(img)</span><br><span class="line">        output = self.fc(feature.view(img.shape[0], -1))</span><br><span class="line">        return output</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>未完待续~~~</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://ryanieeee.cn">Ryanieeee</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://ryanieeee.cn/2023/08/05/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0/">http://ryanieeee.cn/2023/08/05/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://ryanieeee.cn" target="_blank">Ryanieeee</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CNN/">CNN</a></div><div class="post_share"><div class="social-share" data-image="https://www.ryanieeee.cc/img/p_7.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/08/05/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0/" title="循环神经网络学习"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/02_1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">循环神经网络学习</div></div></a></div><div class="next-post pull-right"><a href="/2023/08/05/OCR%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="用PaddlePaddle学习OCR"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/02_2.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">用PaddlePaddle学习OCR</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/comic.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Ryanieeee</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/1393568578@qq.com"><i class="fab fa-github"></i><span>马行千里,不洗沙尘</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/dontwannagiveafk" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:1393568578@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">卷积神经网络学习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%8D%B7%E7%A7%AF"><span class="toc-text">一.为什么要卷积</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-text">二.卷积神经网络的结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%BE%93%E5%87%BA%E5%B1%82%E2%80%94%E2%80%94input"><span class="toc-text">1. 输出层——input</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%8D%B7%E7%A7%AF%E5%B1%82%E2%80%94%E2%80%94conv"><span class="toc-text">2. 卷积层——conv</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%83%E5%80%BC%E5%85%B1%E4%BA%AB"><span class="toc-text">权值共享</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%B1%A0%E5%8C%96%E5%B1%82-%E4%B8%8B%E9%87%87%E6%A0%B7-%E2%80%94%E2%80%94pool"><span class="toc-text">3. 池化层(下采样)——pool</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0%EF%BC%88%E6%BF%80%E5%8A%B1%E5%B1%82%EF%BC%89"><span class="toc-text">4. 激活函数（激励层）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%B8%BA%E5%95%A5%E8%A6%81%E7%94%A8%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0"><span class="toc-text">1. 为啥要用激活函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%B8%B8%E7%94%A8%E7%9A%84%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0"><span class="toc-text">2. 常用的激活函数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%85%A8%E8%BF%9E%E6%8E%A5%E5%B1%82%E2%80%94%E2%80%94FC"><span class="toc-text">5. 全连接层——FC</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89-%E6%95%B0%E6%8D%AE%E8%AE%AD%E7%BB%83"><span class="toc-text">三.数据训练</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%89%8D%E5%90%91%E8%AE%AD%E7%BB%83"><span class="toc-text">1.前向训练</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD"><span class="toc-text">2.反向传播</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1%E8%AE%A1%E7%AE%97%E6%80%BB%E8%AF%AF%E5%B7%AE"><span class="toc-text">2.1计算总误差</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2%E9%9A%90%E8%97%8F%E5%B1%82%E4%B8%8E%E8%BE%93%E5%87%BA%E5%B1%82%E4%B9%8B%E9%97%B4%E7%9A%84%E6%9D%83%E9%87%8D%E6%9B%B4%E6%96%B0"><span class="toc-text">2.2隐藏层与输出层之间的权重更新</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3%E8%BE%93%E5%87%BA%E5%B1%82%E4%B8%8E%E9%9A%90%E8%97%8F%E5%B1%82%E4%B9%8B%E9%97%B4%E7%9A%84%E6%9D%83%E9%87%8D%E6%9B%B4%E6%96%B0"><span class="toc-text">2.3输出层与隐藏层之间的权重更新</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4%E6%80%BB%E7%BB%93"><span class="toc-text">2.4总结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B-LetNet-5"><span class="toc-text">四.LetNet-5</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="toc-text">1. 基本结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-text">2. 代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94-AlexNet"><span class="toc-text">五. AlexNet</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%9B%B8%E8%BE%83%E4%BA%8ELetNet%E7%9A%84%E6%94%B9%E8%BF%9B"><span class="toc-text">1.相较于LetNet的改进</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="toc-text">2.网络结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-%E5%8D%B7%E7%A7%AF%E5%B1%82C1"><span class="toc-text">2.1 卷积层C1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-%E5%8D%B7%E7%A7%AF%E5%B1%82C2"><span class="toc-text">2.2 卷积层C2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-%E5%8D%B7%E7%A7%AF%E5%B1%82C3"><span class="toc-text">2.3 卷积层C3</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-%E5%8D%B7%E7%A7%AF%E5%B1%82C4"><span class="toc-text">2.4 卷积层C4</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-%E5%8D%B7%E7%A7%AF%E5%B1%82C5"><span class="toc-text">2.5 卷积层C5</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-6-%E5%85%A8%E8%BF%9E%E6%8E%A5%E5%B1%82FC6"><span class="toc-text">2.6 全连接层FC6</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-7-%E5%85%A8%E8%BF%9E%E6%8E%A5FC7"><span class="toc-text">2.7 全连接FC7</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-8-%E5%85%A8%E8%BF%9E%E6%8E%A5%E5%B1%82FC8"><span class="toc-text">2.8 全连接层FC8</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-AlexNet%E7%9A%84%E4%B8%BB%E8%A6%81%E8%B4%A1%E7%8C%AE"><span class="toc-text">3.AlexNet的主要贡献</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-ReLU%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0%E7%9A%84%E5%BC%95%E5%85%A5"><span class="toc-text">3.1 ReLU激活函数的引入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-%E5%B1%82%E5%8F%A0%E6%B1%A0%E5%8C%96%E6%93%8D%E4%BD%9C"><span class="toc-text">3.2 层叠池化操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-Dropout%E6%93%8D%E4%BD%9C"><span class="toc-text">3.3 Dropout操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-4-%E7%BD%91%E7%BB%9C%E5%B1%82%E6%95%B0%E7%9A%84%E5%A2%9E%E5%8A%A0"><span class="toc-text">3.4 网络层数的增加</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%BB%A3%E7%A0%81%E5%AE%9E%E4%BE%8B"><span class="toc-text">4.代码实例</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 By Ryanieeee</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">you only live once</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="http://ryanieeee.cn/categories/机器学习/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">😘 机器学习笔记 (5)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item" style="visibility: hidden"></div><a class="magnet_link_more"  href="http://ryanieeee.cn/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #b30070}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var qweather_key = 'b16a1fa0e63c46a4b8f28abfb06ae3fe';
+  var gaud_map_key = 'e2b04289e870b005374ee030148d64fd&s=rsv3';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '113.34532,23.15624';
+  var clock_default_rectangle_enable = 'false';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://dashboard.4everland.org/" style="margin-inline:5px" data-title="本站采用多线部署，备用线路托管于4EVERLAND" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-4EVERLAND-22DDDD?style=flat&amp;logo=IPFS" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="https://npm.elemecdn.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2023/08/10/paddlenlp学习/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/02_2.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-08-10</span><a class="blog-slider__title" href="2023/08/10/paddlenlp学习/" alt="">用PaddlePaddle学习NLP</a><div class="blog-slider__text">对paddlenlp的相关学习</div><a class="blog-slider__button" href="2023/08/10/paddlenlp学习/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2023/08/05/OCR学习笔记/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/02_2.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-08-05</span><a class="blog-slider__title" href="2023/08/05/OCR学习笔记/" alt="">用PaddlePaddle学习OCR</a><div class="blog-slider__text">关于paddleocr的学习笔记</div><a class="blog-slider__button" href="2023/08/05/OCR学习笔记/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2023/08/05/循环神经网络学习/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/02_1.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-08-05</span><a class="blog-slider__title" href="2023/08/05/循环神经网络学习/" alt="">循环神经网络学习</a><div class="blog-slider__text">关于RNN原理的学习</div><a class="blog-slider__button" href="2023/08/05/循环神经网络学习/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2023/08/05/卷积神经网络学习/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/p_7.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-08-05</span><a class="blog-slider__title" href="2023/08/05/卷积神经网络学习/" alt="">卷积神经网络学习</a><div class="blog-slider__text">有关CNN原理以及衍生模型的学习</div><a class="blog-slider__button" href="2023/08/05/卷积神经网络学习/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2023/08/01/pytorch学习笔记/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/p_5.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-08-01</span><a class="blog-slider__title" href="2023/08/01/pytorch学习笔记/" alt="">Pytorch学习笔记</a><div class="blog-slider__text">主要讲的是一些pytroch中常见的函数</div><a class="blog-slider__button" href="2023/08/01/pytorch学习笔记/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '2');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__bounceInRight');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body></html>

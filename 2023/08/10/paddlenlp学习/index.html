@@ -1,0 +1,396 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>用PaddlePaddle学习NLP | Ryanieeee</title><meta name="author" content="Ryanieeee"><meta name="copyright" content="Ryanieeee"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="对paddlenlp的相关学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用PaddlePaddle学习NLP">
+<meta property="og:url" content="http://ryanieeee.cn/2023/08/10/paddlenlp%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Ryanieeee">
+<meta property="og:description" content="对paddlenlp的相关学习">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.ryanieeee.cc/img/02_2.jpg">
+<meta property="article:published_time" content="2023-08-10T11:19:58.981Z">
+<meta property="article:modified_time" content="2023-08-10T12:11:47.733Z">
+<meta property="article:author" content="Ryanieeee">
+<meta property="article:tag" content="NLP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.ryanieeee.cc/img/02_2.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://ryanieeee.cn/2023/08/10/paddlenlp%E5%AD%A6%E4%B9%A0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":500,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '用PaddlePaddle学习NLP',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-08-10 20:11:47'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 6 || hour >= 18
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/universe.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Ryanieeee" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/comic.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://www.ryanieeee.cc/img/02_2.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Ryanieeee"><span class="site-name">Ryanieeee</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group hide" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">用PaddlePaddle学习NLP</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-08-10T11:19:58.981Z" title="发表于 2023-08-10 19:19:58">2023-08-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-08-10T12:11:47.733Z" title="更新于 2023-08-10 20:11:47">2023-08-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="用PaddlePaddle学习NLP"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>用PaddlePaddle学习NLP</h1>
+<h2 id="一-自监督词表示">一.自监督词表示</h2>
+<p>传统的文本处理方式,比如One-hot独热编码虽然能够很好的将词语转换成向量，但是经过独热编码处理后的<strong>词表特征稀疏，词之间相互独立，没有顺序关系，也不能表证词与词之间的关系</strong>。为了弥补这样的短板，我们使用Word2Vec词向量模型和embadding编码。<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/paddlenlp-learning/1.PNG" alt="pic-1"><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/paddlenlp-learning/2.PNG" alt="pic-2"><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/paddlenlp-learning/3.PNG" alt="pic-3"><br>
+由此我们提出了两种不同的算法：一种叫做Skip-gram,另一种叫做CBoW</p>
+<h3 id="Skip-gram">Skip-gram</h3>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/paddlenlp-learning/4.PNG" alt="pic-4"><br>
+如上图所示，这个算法就是给你一个中间词，让你去预测上下文都是什么简单说一下运算流程：首先我们在一段句子里选定一个中间词Wt，对它进行one-hot编码，然后将它与embadding矩阵（就是W矩阵）相乘，就得到了它对应的词向量，然后我们再将它与分类矩阵W’相乘，最后经过softmax，就可以得到词表中每一个词出现的概率，然后我们这个算法的目标就是最大化上下文窗口的概率<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/paddlenlp-learning/5.PNG" alt="pic-5"><br>
+我们假设蓝色框表示中间词，白框表示上下文的窗口，训练样本对（中间词，上下文target）从直觉上来看，<strong>越是相关的单词出现在同一个上下文窗口也就是组成训练样本对的概率就越大</strong>，这样一来我们就可以学习词之间的关系</p>
+<h3 id="CBoW">CBoW</h3>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/paddlenlp-learning/6.png" alt="pic-6"><br>
+它的运算过程和Skip-gram是相反的，中间过程就不细说，最后的目的是要让选定中间词的概率最大化那么两种方式孰优孰劣呢？<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/paddlenlp-learning/7.png" alt="pic-7"></p>
+<h2 id="二-句子编码神经网络">二.句子编码神经网络</h2>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/paddlenlp-learning/8.png" alt="pic-8"><br>
+最开始我们使用自回归语言模型进行句子补全任务，后来我们对这种模型（即潜变量自回归模型）进行改进，于是就出现了RNN<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/paddlenlp-learning/9.png" alt="pic-9"><br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/paddlenlp-learning/10.png" alt="pic-10"><br>
+如上图所示，RNN还是存在一定的缺点，比如无法在time step维度上并行，而且长序列处理起来速度很慢，于是我们在传统rnn上加入了self-attention自注意力机制，从而改善了传统rnn</p>
+<h3 id="transformer">transformer</h3>
+<p>目前来讲我们的nlp模型基本上都是用transformer来做的<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/paddlenlp-learning/11.png" alt="pic-11"><br>
+那么在transformer里self-attention又是很重要的一部分，那么在这里我就先简单讲一下self-attention的基本工作逻辑：</p>
+<h4 id="self-attention">self-attention</h4>
+<p>首先说一下注意力机制里面的三个名称：<br>
+Q(query):可以认为是一个问题，或者说是一个关注点<br>
+K(key)：键，通过计算query与key之间的相似度来确定对齐程度<br>
+V(value)：与key相对应的真实值<br>
+<em><strong>我们可以通过计算&quot;query&quot;和&quot;key&quot;之间的相似度来确定对齐程度，然后使用这些对齐程度权重来加权求和&quot;values&quot;，从而得到注意力分布。“query&quot;可以被认为是一个问题或者一个关注点，用于确定哪些&quot;key&quot;与之相关，并据此选择相应的&quot;values”。</strong></em><br>
+我们假设有一个句子有四个单词，每个单词都映射到三个不同的维度：Q,K,V<br>
+<strong>阶段1</strong>首先，我们让一个单词分别与四个单词的K作内积，得到了四个score<br>
+<strong>阶段2</strong>： 之后呢我们对这四个score作softmax归一化，然后我们就得到了0~1的概率分布，这个分布就是注意力的权重<br>
+<strong>阶段</strong>3： 我们用这个权重矩阵和V矩阵作内积，这样我们就得到了新的这四个单词（句子）的表示这就是self-attention的基本逻辑，我们的transformer中使用的是Mutil-Head Attention机制<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/paddlenlp-learning/12.png" alt="pic-12"><br>
+也就是作多个参数的self-attention，并且把它们拼接在一起，这样做的好处是可以让模型能够注意到文本不同角度的理解。但是和rnn不同，self-attention不会注意到词之间的顺序问题<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/paddlenlp-learning/13.png" alt="pic-13"><br>
+就比如这个句子，里面有3个can，如果用self-attention的话就无法正确理解句子了，为此，我们添加了位置编码（Positional Embadding），这样一来就可以解决时序问题了。那么随着模型的深度不断增加，很容易出现<strong>梯度消失</strong>和<strong>数据分布变化</strong>，那么为了解决这两个问题我们引入了以下解决方式:</p>
+<h4 id="Residual-connections残差连接与Layernormalization层归一化">Residual connections残差连接与Layernormalization层归一化</h4>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/paddlenlp-learning/14.png" alt="pic-14"><br>
+那么在这里我就不展开来说了（汗）</p>
+<h4 id="到此">到此,</h4>
+<p>我们已经把前预训练时代的几个代表性模型学习了一下，接着我们就要进入到预训练时代的学习了</p>
+<h2 id="三-预训练语言模型">三.预训练语言模型</h2>
+<h3 id="发展总览图">发展总览图</h3>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/paddlenlp-learning/15.png" alt="pic-15"><br>
+上面就是预训练模型的发展图，那么在这里也没啥好介绍的，反正就是一代更比一代强hhh<br>
+下面我将通过一个开发实例，具体说一下预训练模型的应用</p>
+<h3 id="基于ERNIE-Gram实现语义匹配">基于ERNIE-Gram实现语义匹配</h3>
+<h4 id="导入各种依赖和数据集">导入各种依赖和数据集</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import time</span><br><span class="line">import os</span><br><span class="line">import numpy as np</span><br><span class="line"></span><br><span class="line">import paddle</span><br><span class="line">import paddle.nn.functional as F</span><br><span class="line">from paddlenlp.datasets import load_dataset</span><br><span class="line">import paddlenlp</span><br><span class="line"></span><br><span class="line"># 一键加载 Lcqmc 的训练集、验证集</span><br><span class="line">train_ds, dev_ds = load_dataset(&quot;lcqmc&quot;, splits=[&quot;train&quot;, &quot;dev&quot;])</span><br><span class="line"></span><br><span class="line"># 输出训练集的前 10 条样本</span><br><span class="line">for idx, example in enumerate(train_ds):</span><br><span class="line">    if idx &lt;= 10:</span><br><span class="line">        print(example)</span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/paddlenlp-learning/16.png" alt="pic-16"><br>
+label表示相关度：1表示相关，0表示不相关这里说明一下，我这儿使用的数据集是baidu公司提供的千言数据集，是人工制作的，所以使用效果较好</p>
+<h4 id="文本预处理">文本预处理</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 因为是基于预训练模型 ERNIE-Gram 来进行，所以需要首先加载 ERNIE-Gram 的 tokenizer，</span><br><span class="line"># 后续样本转换函数基于 tokenizer 对文本进行切分</span><br><span class="line">tokenizer = paddlenlp.transformers.ErnieGramTokenizer.from_pretrained(&#x27;ernie-gram-zh&#x27;)</span><br></pre></td></tr></table></figure>
+<p>定义样本转换函数，把文字变为token-id</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">def convert_example(example, tokenizer, max_seq_length=512, is_test=False):</span><br><span class="line"></span><br><span class="line">    query, title = example[&quot;query&quot;], example[&quot;title&quot;]</span><br><span class="line"></span><br><span class="line">    encoded_inputs = tokenizer(</span><br><span class="line">        text=query, text_pair=title, max_seq_len=max_seq_length)</span><br><span class="line"></span><br><span class="line">    input_ids = encoded_inputs[&quot;input_ids&quot;]</span><br><span class="line">    token_type_ids = encoded_inputs[&quot;token_type_ids&quot;]</span><br><span class="line"></span><br><span class="line">    if not is_test:</span><br><span class="line">        label = np.array([example[&quot;label&quot;]], dtype=&quot;int64&quot;)</span><br><span class="line">        return input_ids, token_type_ids, label</span><br><span class="line">    # 在预测或者评估阶段，不返回 label 字段</span><br><span class="line">    else:</span><br><span class="line">        return input_ids, token_type_ids</span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/paddlenlp-learning/17.png" alt="pic-17"><br>
+从上图可以每一个具有三个位置编码:第一个编码就是token编码，第二个编码是来区分属于这个token第一个句子还是第二个句子，第三个编码是给所有的token排序然后每一个句子的开头都会被插入一个特殊符号：CLS，两个句子中间都会插入SEP特殊符号举个例子：‘喜欢打篮球的男生喜欢什么样的女生’, ‘title’: ‘爱打篮球的男生喜欢什么样的女生’, ‘label’: 1}</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">input_ids, token_type_ids, label = convert_example(train_ds[0], tokenizer)</span><br><span class="line">print(input_ids) #1表示CLS，2表示SEP</span><br></pre></td></tr></table></figure>
+<p>[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(label) #0表示这两句话不匹配，1表示匹配</span><br></pre></td></tr></table></figure>
+<p>[1]</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 为了后续方便使用，我们使用python偏函数（partial）给 convert_example 赋予一些默认参数</span><br><span class="line">from functools import partial</span><br><span class="line"></span><br><span class="line"># 训练集和验证集的样本转换函数</span><br><span class="line">trans_func = partial(</span><br><span class="line">    convert_example,</span><br><span class="line">    tokenizer=tokenizer,</span><br><span class="line">    max_seq_length=512)</span><br></pre></td></tr></table></figure>
+<p>对数据进行padding并组合成batch</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/paddlenlp-learning/18.png" alt="pic-18"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from paddlenlp.data import Stack, Pad, Tuple</span><br><span class="line"># 我们的训练数据会返回 input_ids, token_type_ids, labels 3 个字段</span><br><span class="line"># 因此针对这 3 个字段需要分别定义 3 个组 batch 操作</span><br><span class="line">batchify_fn = lambda samples, fn=Tuple(</span><br><span class="line">    Pad(axis=0, pad_val=tokenizer.pad_token_id),  # input_ids</span><br><span class="line">    Pad(axis=0, pad_val=tokenizer.pad_token_type_id),  # token_type_ids</span><br><span class="line">    Stack(dtype=&quot;int64&quot;)  # label</span><br><span class="line">): [data for data in fn(samples)]</span><br></pre></td></tr></table></figure>
+<p>定义Dataloader</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># 定义分布式 Sampler: 自动对训练数据进行切分，支持多卡并行训练</span><br><span class="line">batch_sampler = paddle.io.DistributedBatchSampler(train_ds, batch_size=32, shuffle=True)</span><br><span class="line"># 基于 train_ds 定义 train_data_loader</span><br><span class="line"># 因为我们使用了分布式的 DistributedBatchSampler, train_data_loader 会自动对训练数据进行切分</span><br><span class="line">train_data_loader = paddle.io.DataLoader(</span><br><span class="line">        dataset=train_ds.map(trans_func),</span><br><span class="line">        batch_sampler=batch_sampler,</span><br><span class="line">        collate_fn=batchify_fn,</span><br><span class="line">        return_list=True)</span><br><span class="line"># 针对验证集数据加载，我们使用单卡进行评估，所以采用 paddle.io.BatchSampler 即可</span><br><span class="line"># 定义 dev_data_loader</span><br><span class="line">batch_sampler = paddle.io.BatchSampler(dev_ds, batch_size=32, shuffle=False)</span><br><span class="line">dev_data_loader = paddle.io.DataLoader(</span><br><span class="line">        dataset=dev_ds.map(trans_func),</span><br><span class="line">        batch_sampler=batch_sampler,</span><br><span class="line">        collate_fn=batchify_fn,</span><br><span class="line">        return_list=True)</span><br></pre></td></tr></table></figure>
+<h4 id="模型搭建">模型搭建</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">import paddle.nn as nn</span><br><span class="line"></span><br><span class="line"># 我们基于 ERNIE-Gram 模型结构搭建 Point-wise 语义匹配网络</span><br><span class="line"># 所以此处先定义 ERNIE-Gram 的 pretrained_model</span><br><span class="line">pretrained_model = paddlenlp.transformers.ErnieGramModel.from_pretrained(&#x27;ernie-gram-zh&#x27;)</span><br><span class="line">#pretrained_model = paddlenlp.transformers.ErnieModel.from_pretrained(&#x27;ernie-1.0&#x27;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class PointwiseMatching(nn.Layer):</span><br><span class="line">   </span><br><span class="line">    # 此处的 pretained_model 在本例中会被 ERNIE-Gram 预训练模型初始化</span><br><span class="line">    def __init__(self, pretrained_model, dropout=None):</span><br><span class="line">        super().__init__()</span><br><span class="line">        self.ptm = pretrained_model</span><br><span class="line">        self.dropout = nn.Dropout(dropout if dropout is not None else 0.1)</span><br><span class="line"></span><br><span class="line">        # 语义匹配任务: 相似、不相似 2 分类任务</span><br><span class="line">        self.classifier = nn.Linear(self.ptm.config[&quot;hidden_size&quot;], 2)</span><br><span class="line"></span><br><span class="line">    def forward(self,</span><br><span class="line">                input_ids,</span><br><span class="line">                token_type_ids=None,</span><br><span class="line">                position_ids=None,</span><br><span class="line">                attention_mask=None):</span><br><span class="line"></span><br><span class="line">        # 此处的 Input_ids 由两条文本的 token ids 拼接而成</span><br><span class="line">        # token_type_ids 表示两段文本的类型编码</span><br><span class="line">        # 返回的 cls_embedding 就表示这两段文本经过模型的计算之后而得到的语义表示向量</span><br><span class="line">        _, cls_embedding = self.ptm(input_ids, token_type_ids, position_ids,</span><br><span class="line">                                    attention_mask)</span><br><span class="line"></span><br><span class="line">        cls_embedding = self.dropout(cls_embedding)</span><br><span class="line"></span><br><span class="line">        # 基于文本对的语义表示向量进行 2 分类任务</span><br><span class="line">        logits = self.classifier(cls_embedding)</span><br><span class="line">        probs = F.softmax(logits)</span><br><span class="line"></span><br><span class="line">        return probs</span><br><span class="line"></span><br><span class="line"># 定义 Point-wise 语义匹配网络</span><br><span class="line">model = PointwiseMatching(pretrained_model)</span><br></pre></td></tr></table></figure>
+<h4 id="模型训练">模型训练</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">from paddlenlp.transformers import LinearDecayWithWarmup</span><br><span class="line">epochs = 3</span><br><span class="line">num_training_steps = len(train_data_loader) * epochs</span><br><span class="line"># 定义 learning_rate_scheduler，负责在训练过程中对 lr 进行调度</span><br><span class="line">lr_scheduler = LinearDecayWithWarmup(5E-5, num_training_steps, 0.0)</span><br><span class="line"># Generate parameter names needed to perform weight decay. 权重衰减</span><br><span class="line"># All bias and LayerNorm parameters are excluded.</span><br><span class="line">decay_params = [</span><br><span class="line">    p.name for n, p in model.named_parameters()</span><br><span class="line">    if not any(nd in n for nd in [&quot;bias&quot;, &quot;norm&quot;])</span><br><span class="line">]</span><br><span class="line"># 定义 Optimizer</span><br><span class="line">optimizer = paddle.optimizer.AdamW(</span><br><span class="line">    learning_rate=lr_scheduler,</span><br><span class="line">    parameters=model.parameters(),</span><br><span class="line">    weight_decay=0.0,</span><br><span class="line">    apply_decay_param_fun=lambda x: x in decay_params)</span><br><span class="line"></span><br><span class="line"># 采用交叉熵 损失函数</span><br><span class="line">criterion = paddle.nn.loss.CrossEntropyLoss()</span><br><span class="line"></span><br><span class="line"># 评估的时候采用准确率指标</span><br><span class="line">metric = paddle.metric.Accuracy()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># 因为训练过程中同时要在验证集进行模型评估，因此我们先定义评估函数</span><br><span class="line">@paddle.no_grad()</span><br><span class="line">def evaluate(model, criterion, metric, data_loader, phase=&quot;dev&quot;):</span><br><span class="line">    model.eval()</span><br><span class="line">    metric.reset()</span><br><span class="line">    losses = []</span><br><span class="line">    for batch in data_loader:</span><br><span class="line">        input_ids, token_type_ids, labels = batch</span><br><span class="line">        probs = model(input_ids=input_ids, token_type_ids=token_type_ids)</span><br><span class="line">        loss = criterion(probs, labels)</span><br><span class="line">        losses.append(loss.numpy())</span><br><span class="line">        correct = metric.compute(probs, labels)</span><br><span class="line">        metric.update(correct)</span><br><span class="line">        accu = metric.accumulate()</span><br><span class="line">    print(&quot;eval &#123;&#125; loss: &#123;:.5&#125;, accu: &#123;:.5&#125;&quot;.format(phase,</span><br><span class="line">                                                    np.mean(losses), accu))</span><br><span class="line">    model.train()</span><br><span class="line">    metric.reset()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">global_step = 0</span><br><span class="line">tic_train = time.time()</span><br><span class="line"></span><br><span class="line">for epoch in range(1, epochs + 1):</span><br><span class="line">    for step, batch in enumerate(train_data_loader, start=1):</span><br><span class="line"></span><br><span class="line">        input_ids, token_type_ids, labels = batch</span><br><span class="line">        probs = model(input_ids=input_ids, token_type_ids=token_type_ids)</span><br><span class="line">        loss = criterion(probs, labels)</span><br><span class="line">        correct = metric.compute(probs, labels)</span><br><span class="line">        metric.update(correct)</span><br><span class="line">        acc = metric.accumulate()</span><br><span class="line"></span><br><span class="line">        global_step += 1</span><br><span class="line">        </span><br><span class="line">        # 每间隔 10 step 输出训练指标</span><br><span class="line">        if global_step % 10 == 0:</span><br><span class="line">            print(</span><br><span class="line">                &quot;global step %d, epoch: %d, batch: %d, loss: %.5f, accu: %.5f, speed: %.2f step/s&quot;</span><br><span class="line">                % (global_step, epoch, step, loss, acc,</span><br><span class="line">                    10 / (time.time() - tic_train)))</span><br><span class="line">            tic_train = time.time()</span><br><span class="line">        loss.backward()</span><br><span class="line">        optimizer.step()</span><br><span class="line">        lr_scheduler.step()</span><br><span class="line">        optimizer.clear_grad()</span><br><span class="line"></span><br><span class="line">        # 每间隔 100 step 在验证集和测试集上进行评估</span><br><span class="line">        if global_step % 100 == 0:</span><br><span class="line">            evaluate(model, criterion, metric, dev_data_loader, &quot;dev&quot;)</span><br><span class="line">            </span><br><span class="line"># 训练结束后，存储模型参数</span><br><span class="line">save_dir = os.path.join(&quot;checkpoint&quot;, &quot;model_%d&quot; % global_step)</span><br><span class="line">os.makedirs(save_dir)</span><br><span class="line"></span><br><span class="line">save_param_path = os.path.join(save_dir, &#x27;model_state.pdparams&#x27;)</span><br><span class="line">paddle.save(model.state_dict(), save_param_path)</span><br><span class="line">tokenizer.save_pretrained(save_dir)</span><br></pre></td></tr></table></figure>
+<p>训练结果：<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/paddlenlp-learning/19.png" alt="pic-19"></p>
+<h4 id="模型预测">模型预测</h4>
+<p>加载测试数据集</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">! head -n3 &quot;$&#123;HOME&#125;/.paddlenlp/datasets/LCQMC/lcqmc/lcqmc/test.tsv&quot;</span><br></pre></td></tr></table></figure>
+<p>定义预测函数，转换函数和预测模型</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">def predict(model, data_loader):</span><br><span class="line">    batch_probs = []</span><br><span class="line">    # 预测阶段打开 eval 模式，模型中的 dropout 等操作会关掉</span><br><span class="line">    model.eval()</span><br><span class="line">    with paddle.no_grad():</span><br><span class="line">        for batch_data in data_loader:</span><br><span class="line">            input_ids, token_type_ids = batch_data</span><br><span class="line">            input_ids = paddle.to_tensor(input_ids)</span><br><span class="line">            token_type_ids = paddle.to_tensor(token_type_ids)</span><br><span class="line">            # 获取每个样本的预测概率: [batch_size, 2] 的矩阵</span><br><span class="line">            batch_prob = model(</span><br><span class="line">                input_ids=input_ids, token_type_ids=token_type_ids).numpy()</span><br><span class="line"></span><br><span class="line">            batch_probs.append(batch_prob)</span><br><span class="line">        batch_probs = np.concatenate(batch_probs, axis=0)</span><br><span class="line"></span><br><span class="line">        return batch_probs</span><br><span class="line">      </span><br><span class="line"># 预测数据的转换函数</span><br><span class="line"># predict 数据没有 label, 因此 convert_exmaple 的 is_test 参数设为 True</span><br><span class="line">trans_func = partial(</span><br><span class="line">    convert_example,</span><br><span class="line">    tokenizer=tokenizer,</span><br><span class="line">    max_seq_length=512,</span><br><span class="line">    is_test=True)</span><br><span class="line"></span><br><span class="line"># 预测数据的组 batch 操作</span><br><span class="line"># predict 数据只返回 input_ids 和 token_type_ids，因此只需要 2 个 Pad 对象作为 batchify_fn</span><br><span class="line">batchify_fn = lambda samples, fn=Tuple(</span><br><span class="line">    Pad(axis=0, pad_val=tokenizer.pad_token_id),  # input_ids</span><br><span class="line">    Pad(axis=0, pad_val=tokenizer.pad_token_type_id),  # segment_ids</span><br><span class="line">): [data for data in fn(samples)]</span><br><span class="line"></span><br><span class="line"># 加载预测数据</span><br><span class="line">test_ds = load_dataset(&quot;lcqmc&quot;, splits=[&quot;test&quot;])</span><br><span class="line"></span><br><span class="line">batch_sampler = paddle.io.BatchSampler(test_ds, batch_size=32, shuffle=False)</span><br><span class="line"></span><br><span class="line"># 生成预测数据 data_loader</span><br><span class="line">predict_data_loader =paddle.io.DataLoader(</span><br><span class="line">        dataset=test_ds.map(trans_func),</span><br><span class="line">        batch_sampler=batch_sampler,</span><br><span class="line">        collate_fn=batchify_fn,</span><br><span class="line">        return_list=True)</span><br><span class="line">        </span><br><span class="line"># 定义预测模型</span><br><span class="line">pretrained_model = paddlenlp.transformers.ErnieGramModel.from_pretrained(&#x27;ernie-gram-zh&#x27;)</span><br><span class="line">model = PointwiseMatching(pretrained_model)</span><br><span class="line"></span><br><span class="line">#加载模型数据</span><br><span class="line">state_dict = paddle.load(&quot;./ernie_gram_zh_pointwise_matching_model/model_state.pdparams&quot;)</span><br><span class="line">model.set_dict(state_dict)</span><br></pre></td></tr></table></figure>
+<p>开始预测</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for idx, batch in enumerate(predict_data_loader):</span><br><span class="line">    if idx &lt; 1:</span><br><span class="line">        print(batch)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># 执行预测函数</span><br><span class="line">y_probs = predict(model, predict_data_loader)</span><br><span class="line"></span><br><span class="line"># 根据预测概率获取预测 label</span><br><span class="line">y_preds = np.argmax(y_probs, axis=1)</span><br><span class="line"></span><br><span class="line">#输出预测结果</span><br><span class="line">test_ds = load_dataset(&quot;lcqmc&quot;, splits=[&quot;test&quot;])</span><br><span class="line"></span><br><span class="line">with open(&quot;lcqmc.tsv&quot;, &#x27;w&#x27;, encoding=&quot;utf-8&quot;) as f:</span><br><span class="line">    f.write(&quot;index\tprediction\n&quot;)    </span><br><span class="line">    for idx, y_pred in enumerate(y_preds):</span><br><span class="line">        f.write(&quot;&#123;&#125;\t&#123;&#125;\n&quot;.format(idx, y_pred))</span><br><span class="line">        text_pair = test_ds[idx]</span><br><span class="line">        text_pair[&quot;label&quot;] = y_pred</span><br><span class="line">        print(text_pair)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/paddlenlp-learning/20.png" alt="pic-20"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://ryanieeee.cn">Ryanieeee</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://ryanieeee.cn/2023/08/10/paddlenlp%E5%AD%A6%E4%B9%A0/">http://ryanieeee.cn/2023/08/10/paddlenlp%E5%AD%A6%E4%B9%A0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://ryanieeee.cn" target="_blank">Ryanieeee</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/NLP/">NLP</a></div><div class="post_share"><div class="social-share" data-image="https://www.ryanieeee.cc/img/02_2.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/08/05/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0/" title="循环神经网络学习"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/02_1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">循环神经网络学习</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/comic.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Ryanieeee</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/1393568578@qq.com"><i class="fab fa-github"></i><span>马行千里,不洗沙尘</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/dontwannagiveafk" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:1393568578@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">用PaddlePaddle学习NLP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E8%87%AA%E7%9B%91%E7%9D%A3%E8%AF%8D%E8%A1%A8%E7%A4%BA"><span class="toc-text">一.自监督词表示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Skip-gram"><span class="toc-text">Skip-gram</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CBoW"><span class="toc-text">CBoW</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-%E5%8F%A5%E5%AD%90%E7%BC%96%E7%A0%81%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="toc-text">二.句子编码神经网络</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#transformer"><span class="toc-text">transformer</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#self-attention"><span class="toc-text">self-attention</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Residual-connections%E6%AE%8B%E5%B7%AE%E8%BF%9E%E6%8E%A5%E4%B8%8ELayernormalization%E5%B1%82%E5%BD%92%E4%B8%80%E5%8C%96"><span class="toc-text">Residual connections残差连接与Layernormalization层归一化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%B0%E6%AD%A4"><span class="toc-text">到此,</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89-%E9%A2%84%E8%AE%AD%E7%BB%83%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B"><span class="toc-text">三.预训练语言模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E5%B1%95%E6%80%BB%E8%A7%88%E5%9B%BE"><span class="toc-text">发展总览图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8EERNIE-Gram%E5%AE%9E%E7%8E%B0%E8%AF%AD%E4%B9%89%E5%8C%B9%E9%85%8D"><span class="toc-text">基于ERNIE-Gram实现语义匹配</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E5%90%84%E7%A7%8D%E4%BE%9D%E8%B5%96%E5%92%8C%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="toc-text">导入各种依赖和数据集</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E9%A2%84%E5%A4%84%E7%90%86"><span class="toc-text">文本预处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E6%90%AD%E5%BB%BA"><span class="toc-text">模型搭建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83"><span class="toc-text">模型训练</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E9%A2%84%E6%B5%8B"><span class="toc-text">模型预测</span></a></li></ol></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 By Ryanieeee</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">you only live once</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="http://ryanieeee.cn/categories/机器学习/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">😘 机器学习笔记 (5)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item" style="visibility: hidden"></div><a class="magnet_link_more"  href="http://ryanieeee.cn/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #b30070}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var qweather_key = 'b16a1fa0e63c46a4b8f28abfb06ae3fe';
+  var gaud_map_key = 'e2b04289e870b005374ee030148d64fd&s=rsv3';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '113.34532,23.15624';
+  var clock_default_rectangle_enable = 'false';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://dashboard.4everland.org/" style="margin-inline:5px" data-title="本站采用多线部署，备用线路托管于4EVERLAND" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-4EVERLAND-22DDDD?style=flat&amp;logo=IPFS" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="https://npm.elemecdn.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2023/08/10/paddlenlp学习/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/02_2.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-08-10</span><a class="blog-slider__title" href="2023/08/10/paddlenlp学习/" alt="">用PaddlePaddle学习NLP</a><div class="blog-slider__text">对paddlenlp的相关学习</div><a class="blog-slider__button" href="2023/08/10/paddlenlp学习/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2023/08/05/OCR学习笔记/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/02_2.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-08-05</span><a class="blog-slider__title" href="2023/08/05/OCR学习笔记/" alt="">用PaddlePaddle学习OCR</a><div class="blog-slider__text">关于paddleocr的学习笔记</div><a class="blog-slider__button" href="2023/08/05/OCR学习笔记/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2023/08/05/循环神经网络学习/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/02_1.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-08-05</span><a class="blog-slider__title" href="2023/08/05/循环神经网络学习/" alt="">循环神经网络学习</a><div class="blog-slider__text">关于RNN原理的学习</div><a class="blog-slider__button" href="2023/08/05/循环神经网络学习/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2023/08/05/卷积神经网络学习/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/p_7.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-08-05</span><a class="blog-slider__title" href="2023/08/05/卷积神经网络学习/" alt="">卷积神经网络学习</a><div class="blog-slider__text">有关CNN原理以及衍生模型的学习</div><a class="blog-slider__button" href="2023/08/05/卷积神经网络学习/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2023/08/01/pytorch学习笔记/" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.ryanieeee.cc/img/p_5.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-08-01</span><a class="blog-slider__title" href="2023/08/01/pytorch学习笔记/" alt="">Pytorch学习笔记</a><div class="blog-slider__text">主要讲的是一些pytroch中常见的函数</div><a class="blog-slider__button" href="2023/08/01/pytorch学习笔记/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '2');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__bounceInRight');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body></html>
